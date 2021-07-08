@@ -18,6 +18,10 @@ app.get('/',(req, res) =>{
     res.json("Server is running");
 })
 
+io.on('connection',(socket) => {
+    
+})
+
 server.listen(PORT,() => {
     console.log("Server listening on port "+PORT)
 })
