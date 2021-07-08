@@ -19,7 +19,19 @@ app.get('/',(req, res) =>{
 })
 
 io.on('connection',(socket) => {
-    
+    socket.emit('me', socket.id);
+
+    io.on('disconnect', () => {
+        socket.broadcast.emit('callended');
+    })
+
+    io.on('calluser', ({userToCall,signalData,from, name}) => {
+        io.to(userToCall).emit('calluser',{ signal:signalData, from, name});
+    })
+
+    io.on('answercall', (data) => {
+        io.to(data.to).emit('callaccepted',data.signal);
+    })
 })
 
 server.listen(PORT,() => {
